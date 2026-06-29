@@ -162,6 +162,21 @@
 
     </div>
 
+<div id="avatar-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
+        <div style="background: white; padding: 20px; border-radius: 20px; width: 80%; max-width: 300px; text-align: center;">
+            <h3 style="margin-top: 0;">アバターを選んでね</h3>
+            <div style="display: flex; justify-content: center; gap: 15px; margin: 20px 0;">
+                <img src="image/woman1.png" onclick="selectPresetAvatar('woman1')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc;">
+                <img src="image/man1.png" onclick="selectPresetAvatar('man1')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc;">
+            </div>
+            <button onclick="closeAvatarModal()" style="background-color: #888; box-shadow: 0 3px 0 #666;">閉じる</button>
+        </div>
+    </div>
+
+    <div id="photo-zoom-modal" onclick="closeZoomModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out;">
+        <img id="zoomed-photo" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+    </div>
+
     <script type="module" src="script.js"></script>
 </body>
 </html>
