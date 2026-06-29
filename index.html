@@ -12,27 +12,27 @@
             position: relative;
         }
 
-        /* エフェクトをアバターの真上にぴったり重ねてアニメーションさせる */
+        /* 🌟 エフェクトをアバターの真上にぴったり重ねる魔法（裏に隠れないように強化！） */
         .floating-effect {
             position: absolute;
-            top: 150px;        /* ⚠️文字の下じゃなく画像の上にくるように位置を調整したよ！ */
+            top: 110px;        /* ⚠️ 画像の真上にくるように調整（ズレていたらここを弄ってね） */
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.5rem;
-            z-index: 10;
+            font-size: 3rem;   /* ちょっと大きく見えやすくしたよ！ */
+            z-index: 9999;     /* 👈 これが超重要！すべての画像や文字より「手前」に出します */
             pointer-events: none;
             animation: fadeUp 2s ease-out forwards;
+            white-space: nowrap;
         }
 
         /* ふわっと浮き上がって消える動き */
         @keyframes fadeUp {
             0% { opacity: 0; transform: translate(-50%, -20%) scale(0.5); }
-            15% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            15% { opacity: 1; transform: translate(-50%, -50%) scale(1.3); }
             80% { opacity: 1; transform: translate(-50%, -60%) scale(1); }
             100% { opacity: 0; transform: translate(-50%, -100%) scale(0.8); }
         }
-    </style>
-   
+    </style>   
 </head>
 <body>
 
