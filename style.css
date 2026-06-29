@@ -1,0 +1,213 @@
+/* ==========================================================================
+   全体の基本設定（スマホファースト）
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+    background-color: #e8f5e9; /* 淡いミントグリーン（癒やし系） */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* アプリ全体のコンテナ（スマホの画面幅に固定） */
+#app-container {
+    width: 100%;
+    max-width: 480px; /* スマホの標準的な横幅 */
+    min-height: 100vh;
+    background-color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* タイトル */
+h1 {
+    font-size: 1.4rem;
+    text-align: center;
+    color: #4caf50;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 10px;
+    border-left: 4px solid #81c784;
+    padding-left: 8px;
+}
+
+/* ─── エリア共通の枠組み ─── */
+section {
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
+
+/* ==========================================================================
+   ① 相手の表示エリア（画面上半分）
+   ========================================================================== */
+#partner-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* 相手のキャラ画像（ポラロイド風のデザインに） */
+#partner-avatar {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 6px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin: 10px 0;
+    transition: transform 0.3s ease;
+}
+
+/* 相手の一言メッセージ（吹き出し風） */
+#partner-message {
+    background-color: #fff;
+    padding: 12px 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    position: relative;
+    margin-top: 10px;
+    max-width: 80%;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   ② 自分の操作エリア（画面下半分）
+   ========================================================================== */
+#my-area {
+    margin-top: 0;        /* 上に強制的に押し下げる力をリセット！ */
+    padding-top: 20px;    /* あいてエリア（padding-top: 20px）と「てっぺんの高さ」を完全に揃える魔法 */
+}
+/* キャラ選択（グリッド配置：横に3つ並ぶ） */
+.avatar-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.avatar-option {
+    border: 2px solid transparent;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.avatar-option img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* キャラが選択されたときのハイライト効果 */
+.avatar-option.selected {
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    transform: scale(1.05);
+}
+
+/* 一言入力と送信ボタンの横並び */
+.message-input {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.message-input input[type="text"] {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 24px;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.message-input input[type="text"]:focus {
+    border-color: #4caf50;
+}
+
+/* ボタンの共通デザイン（ぷっくりした可愛い感じ） */
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #388e3c;
+    transition: all 0.1s ease;
+}
+
+button:active {
+    transform: translateY(3px);
+    box-shadow: none;
+
+}
+
+/* ==========================================================================
+   ✨ エフェクト（アニメーション）の設定
+   ========================================================================== */
+
+/* 相手のキャラエリアを、エフェクトの基準位置にする設定 */
+#partner-area {
+    position: relative; /* これが必要！ */
+}
+
+/* 飛び出すエフェクトの共通デザイン */
+.floating-effect {
+    position: absolute;
+    top: 40%;   /* キャラクターの周辺に配置 */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem; /* エフェクトのサイズ（大きめ） */
+    pointer-events: none; /* クリックの邪魔をしない */
+    opacity: 0;
+    animation: popAndFade 2.0s ease-out forwards; /* 2秒かけてアニメーション */
+    z-index: 10;
+}
+
+/* ぷくっと出て、上にふわふわ昇りながら消えるアニメーション */
+@keyframes popAndFade {
+    0% {
+        transform: translate(-50%, -30%) scale(0.3);
+        opacity: 0;
+    }
+    15% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    30% {
+        transform: translate(-50%, -55%) scale(1.0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -100%) scale(0.8);
+        opacity: 0;
+    }
+}
