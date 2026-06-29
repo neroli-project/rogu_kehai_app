@@ -123,8 +123,12 @@ window.saveDataToServer = function(messageText, effectEmoji) {
     });
 }
 
-// エフェクトを画面に出す関数
-function triggerEffect(emojis) {
+// ==========================================================================
+// 🛠️ 共通で使う大事な関数（確実に外から見えるように修正したよ！）
+// ==========================================================================
+
+// ✨ エフェクトを画面に出す魔法の関数（windowを頭につけました！）
+window.triggerEffect = function(emojis) {
     const effectLayer = document.getElementById('effect-layer');
     if (!effectLayer) return;
     
@@ -135,10 +139,31 @@ function triggerEffect(emojis) {
     setTimeout(() => { effectDiv.remove(); }, 2000);
 }
 
+// 自分のデータをFirebaseに送信（保存）する共通関数
+window.saveDataToServer = function(messageText, effectEmoji) {
+    if (!myRef) return;
+    const currentAvatarSrc = document.getElementById('my-avatar-preview').src;
+    
+    const statusElement = document.getElementById('my-current-status');
+    if (statusElement) {
+        statusElement.innerText = messageText;
+    }
+    
+    set(myRef, {
+        avatar: currentAvatarSrc,
+        message: messageText,
+        effect: effectEmoji || "",
+        checked: false
+    }).then(() => {
+        console.log("Firebaseへの送信に成功！:", messageText);
+    }).catch((error) => {
+        console.error("Firebaseへの送信でエラー:", error);
+    });
+}
+
 // ポップアップ開閉
 window.openAvatarModal = function() { document.getElementById('avatar-modal').style.display = 'flex'; }
 window.closeAvatarModal = function() { document.getElementById('avatar-modal').style.display = 'none'; }
-
 // ==========================================================================
 // 📡 部屋にいる「自分以外の人（相手）」を自動で見つけて画面に映す
 // ==========================================================================
