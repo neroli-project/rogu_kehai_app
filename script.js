@@ -45,6 +45,7 @@ if (!roomId || !myId) {
 // ==========================================================================
 let generatedInviteUrl = "";
 let nextJumpUrl = "";
+let currentRoomName = ""; // 💡 入力されたお部屋の名前をキープしておく変数
 
 // 💡 1つ目のボタン：入力内容をチェックして招待画面をポッと出す
 window.loginToRoom = function() {
@@ -55,6 +56,9 @@ window.loginToRoom = function() {
         alert('お部屋の名前と、あなたの名前を入力してね！');
         return;
     }
+    
+    // 💡 入力された部屋名を後で使うために覚えさせておくよ！
+    currentRoomName = roomInput;
     
     // 相手に送る用のベースURLを自動で作るよ
     const baseUrl = window.location.origin + window.location.pathname;
@@ -70,10 +74,11 @@ window.loginToRoom = function() {
 
 // 💡 招待メッセージをクリップボードに自動コピーする魔法
 window.copyInviteMessage = function() {
-    const message = `ふたりの「今の気配」がわかるアプリを作ってみたよ！🌸\n\n下のURLを開いて、あなたのお名前を入れるだけで合流できるよ！待ってるね🥰👇\n${generatedInviteUrl}`;
+    // 👇 ここがポイント！ 「〇〇〇」だった部分に、自動で実際の部屋名が入るよ！
+    const message = `ふたりの「今の気配」がわかるアプリを作ってみたよ！🌸\n\n下のURLを開いて、ふたりの部屋名（${currentRoomName}）とあなたの好きなお名前を入れるだけで合流できるよ！待ってるね🥰👇\n${generatedInviteUrl}`;
     
     navigator.clipboard.writeText(message).then(() => {
-        alert('📋 LINE用の招待メッセージをコピーしたよ！そのまま貼り付けて送ね。');
+        alert('📋 LINE用の招待メッセージをコピーしたよ！そのまま貼り付けて送ってね。'); // 「送ね」のタイポも直しておいたよ！
     }).catch(err => {
         alert('コピーに失敗しちゃった。文字を直接選択してコピーしてね！');
     });
