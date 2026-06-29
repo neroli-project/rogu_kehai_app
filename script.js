@@ -205,23 +205,6 @@ function reduceUploadCount() {
     document.getElementById('upload-count').innerText = uploadLimit;
 }
 
-// ==========================================================================
-// 7. 背景写真アップロード
-// ==========================================================================
-window.uploadBackground = function() {
-    const photoInput = document.getElementById('bg-photo-input');
-    const appContainer = document.getElementById('app-container');
-    if (photoInput.files && photoInput.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            appContainer.style.backgroundImage = `url('${e.target.result}')`;
-            appContainer.style.backgroundSize = 'cover';
-            appContainer.style.backgroundPosition = 'center';
-            alert("背景画像を設定したよ！");
-        };
-        reader.readAsDataURL(photoInput.files[0]);
-    }
-}
 
 // ==========================================================================
 // 📡 【新機能】ページを開いた時に、自分の最新データをFirebaseから読み込んで復活させる
