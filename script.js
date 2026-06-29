@@ -168,7 +168,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (typeof window.switchTab === 'function') {
         window.switchTab('partner');
     }
-});}
+});
 
 ==========================================================================
 // 🛠️ 共通で使う大事な関数
