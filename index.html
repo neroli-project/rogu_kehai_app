@@ -4,82 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kehai. </title>
-    <style>
-        /* ここに今までのCSSをそのまま残してね！ */
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #e8f5e9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 40px;
+<link rel="stylesheet" href="style.css">
+
+<style>
+        /* 相手のエリアをエフェクトの「基準の箱」にする */
+        #partner-area {
+            position: relative;
         }
-        #app-container, #login-container {
-            background-color: #ffffff;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            padding: 20px;
-            box-sizing: border-box;
+
+        /* エフェクトをアバターの真上にぴったり重ねてアニメーションさせる */
+        .floating-effect {
+            position: absolute;
+            top: 150px;        /* ⚠️文字の下じゃなく画像の上にくるように位置を調整したよ！ */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            z-index: 10;
+            pointer-events: none;
+            animation: fadeUp 2s ease-out forwards;
         }
-        h1 {
-            text-align: center;
-            color: #4caf50;
-            font-size: 1.8rem;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
-        h2 {
-            font-size: 1.1rem;
-            color: #333;
-            border-left: 4px solid #4caf50;
-            padding-left: 8px;
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        .login-input-group {
-            margin-bottom: 15px;
-        }
-        .login-input-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .login-input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 15px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-        }
-        .login-input-group input:focus {
-            border-color: #4caf50;
-        }
-        /* ボタン共通 */
-        button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 24px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 3px 0 #388e3c;
-            transition: all 0.1s ease;
-        }
-        button:active {
-            transform: translateY(3px);
-            box-shadow: none;
+
+        /* ふわっと浮き上がって消える動き */
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translate(-50%, -20%) scale(0.5); }
+            15% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            80% { opacity: 1; transform: translate(-50%, -60%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -100%) scale(0.8); }
         }
     </style>
+   
 </head>
 <body>
 
