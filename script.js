@@ -183,10 +183,10 @@ window.changeStatus = function(statusText) {
     else if (statusText.includes('愛してる')) effect = '❤️❤️❤️';
     else if (statusText.includes('大好き')) effect = '💖✨💘';
 
+    // 👇 頭に window. を付け足して、確実に魔法を呼び出すよ！
     window.triggerEffect(effect);
     window.saveDataToServer(statusText, effect);
 }
-
 // ==========================================================================
 // 4. 自由入力のメッセージ送信
 // ==========================================================================
@@ -198,11 +198,12 @@ window.sendStatus = function() {
     }
     const statusText = messageInput.value;
     document.getElementById('my-current-status').innerText = statusText;
+    
+    // 👇 ここも頭に window. を付け足すよ！
     window.triggerEffect('✨🎉✨');
     window.saveDataToServer(statusText, '✨🎉✨');
     messageInput.value = "";
 }
-
 // ==========================================================================
 // 5. アバター変更（プリセット）
 // ==========================================================================
