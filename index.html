@@ -119,19 +119,28 @@
         <div style="background: white; padding: 20px; border-radius: 20px; width: 90%; max-width: 340px; text-align: center;">
             <h3 style="margin-top: 0; margin-bottom: 15px; color: #333;">アバターを選んでね🌸</h3>
             
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; justify-items: center;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 15px 0; justify-items: center;">
                 <img src="image/woman1.png" onclick="selectPresetAvatar('woman1')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
                 <img src="image/man1.png" onclick="selectPresetAvatar('man1')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
                 <img src="image/woman2.png" onclick="selectPresetAvatar('woman2')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
                 <img src="image/man2.png" onclick="selectPresetAvatar('man2')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
-                <img src="image/woman3.png" onclick="selectPresetAvatar('woman3')" style="width: 70px; height: 70px; border-radius: 50%; pointer; border: 2px solid #ccc; object-fit: cover;">
+                <img src="image/woman3.png" onclick="selectPresetAvatar('woman3')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
                 <img src="image/man3.png" onclick="selectPresetAvatar('man3')" style="width: 70px; height: 70px; border-radius: 50%; cursor: pointer; border: 2px solid #ccc; object-fit: cover;">
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+            <div style="margin: 15px 0;">
+                <p style="font-size: 0.85rem; color: #666; margin-bottom: 8px;">または、スマホの写真から選ぶ👇</p>
+                <input type="file" id="avatar-file-input" accept="image/*" onchange="uploadOwnPhoto(this)" style="display: none;">
+                <label for="avatar-file-input" style="display: inline-block; background-color: #4caf50; color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #388e3c; font-size: 0.9rem;">
+                    📷 写真を選択する
+                </label>
             </div>
             
             <button onclick="closeAvatarModal()" style="background-color: #888; box-shadow: 0 3px 0 #666; margin-top: 10px; width: 100%;">閉じる</button>
         </div>
-    </div>
-    <div id="photo-zoom-modal" onclick="closeZoomModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out;">
+    </div>    <div id="photo-zoom-modal" onclick="closeZoomModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 2000; cursor: zoom-out;">
         <img id="zoomed-photo" src="" style="max-width: 90%; max-height: 90%; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
     </div>
 

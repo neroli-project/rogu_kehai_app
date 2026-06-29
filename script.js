@@ -315,3 +315,35 @@ window.addEventListener('DOMContentLoaded', () => {
         window.switchTab('partner');
     }
 });
+
+// ==========================================================================
+// 📸 【復活！】自分の写真を読み込んでセットする魔法
+// ==========================================================================
+window.uploadOwnPhoto = function(input) {
+    if (!checkUploadLimit()) {
+        alert("本日の変更回数の上限です");
+        return;
+    }
+
+    // 写真がちゃんと選ばれているかチェック
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        // 写真の読み込みが完了した時の処理
+        reader.onload = function(e) {
+            // 自分のアバタープレビューを、選んだ写真に書き換える
+            document.getElementById('my-avatar-preview').src = e.target.result;
+
+            // Firebaseのサーバーにも、この写真のデータを送信する
+            const currentMsg = "新しい写真を設定したよ！📸";
+            window.saveDataToServer(currentMsg, "");
+
+            // 制限回数を減らしてモーダルを閉じる
+            reduceUploadCount();
+            window.closeAvatarModal();
+        };
+
+        // 写真をデータとして読み込む
+        reader.readAsDataURL(input.files[0]);
+    }
+}
