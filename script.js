@@ -124,7 +124,7 @@ window.saveDataToServer = function(messageText, effectEmoji) {
 }
 
 // エフェクトを画面に出す関数
-window.triggerEffect = function(emojis) {
+function triggerEffect(emojis) {
     const effectLayer = document.getElementById('effect-layer');
     if (!effectLayer) return;
     
