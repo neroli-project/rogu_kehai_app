@@ -40,7 +40,15 @@ if (!roomId || !myId) {
     });
 }
 
-// 💡【新機能】ログインボタンを押した時に、URLを書き換えてお部屋に入る魔法
+// ==========================================================================
+// 🔑 【新機能】ログイン＆招待リンク生成の処理
+// ==========================================================================
+
+// 💡 世界にひとつだけの招待URLとジャンプ先を一時的に保存しておく変数
+let generatedInviteUrl = "";
+let nextJumpUrl = "";
+
+// 💡 1つ目のボタン：入力内容をチェックして招待画面をポッと出す
 window.loginToRoom = function() {
     const roomInput = document.getElementById('input-room').value.trim();
     const nameInput = document.getElementById('input-name').value.trim();
@@ -50,12 +58,37 @@ window.loginToRoom = function() {
         return;
     }
     
-    // 現在のページURLの後ろに部屋名と名前をくっつけて、画面を再読込する！
-    window.location.search = `?room=${encodeURIComponent(roomInput)}&myname=${encodeURIComponent(nameInput)}`;
+    // 相手に送る用のベースURLを自動で作るよ（?room=部屋名 だけが入った状態）
+    const baseUrl = window.location.origin + window.location.pathname;
+    generatedInviteUrl = `${baseUrl}?room=${encodeURIComponent(roomInput)}`;
+    
+    // 自分が後で入る用のURLもキープしておくよ（?room=部屋名&myname=自分の名前）
+    nextJumpUrl = `${baseUrl}?room=${encodeURIComponent(roomInput)}&myname=${encodeURIComponent(nameInput)}`;
+    
+    // ✨ 魔法の切り替え：入力欄を隠して、招待コピー画面をポッと出す！
+    document.getElementById('login-form-fields').style.display = 'none';
+    document.getElementById('invite-area').style.display = 'block';
 }
 
-// 🚨ここから下の、Firebaseのデータベース接続（ref や onValue）や
-// 状態変更（changeStatus）、一番下のタブ切り替え（switchTab）などのコードはそのまま残してね！// ==========================================================================
+// 💡 招待メッセージをクリップボードに自動コピーする魔法
+window.copyInviteMessage = function() {
+    // 相手にそのまま送れる可愛いメッセージを自動生成！
+    const message = `ふたりの「今の気配」がわかるアプリを作ってみたよ！🌸\n\n下のURLを開いて、あなたのお名前を入れるだけで合流できるよ！待ってるね🥰👇\n${generatedInviteUrl}`;
+    
+    // クリップボードにコピー
+    navigator.clipboard.writeText(message).then(() => {
+        alert('📋 LINE用の招待メッセージをコピーしたよ！そのまま貼り付けて送ってね。');
+    }).catch(err => {
+        alert('コピーに失敗しちゃった。文字を直接選択してコピーしてね！');
+    });
+}
+
+// 💡 2つ目のボタン：コピーした後に自分がお部屋に入る処理
+window.goToRoomActual = function() {
+    if (nextJumpUrl) {
+        window.location.href = nextJumpUrl;
+    }
+}==========================================================================
 // 🛠️ 共通で使う大事な関数
 // ==========================================================================
 

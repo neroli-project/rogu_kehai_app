@@ -85,19 +85,30 @@
 
     <div id="login-container" style="display: none;">
         <h1>Kehai.</h1>
-        <p style="text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 25px;">ふたりの秘密の合言葉（部屋名）を決めてね🌸</p>
         
-        <div class="login-input-group">
-            <label for="input-room">🌸 ふたりの部屋名（英語や数字）</label>
-            <input type="text" id="input-room" placeholder="例: red_room">
+        <div id="login-form-fields" style="display: block;">
+            <p style="text-align: center; color: #666; font-size: 0.9rem; margin-bottom: 25px;">ふたりの秘密の合言葉（部屋名）を決ね🌸</p>
+            
+            <div class="login-input-group">
+                <label for="input-room">🌸 ふたりの部屋名（英語や数字）</label>
+                <input type="text" id="input-room" placeholder="例: sakura_neroli">
+            </div>
+            
+            <div class="login-input-group">
+                <label for="input-name">👤 あなたのお名前</label>
+                <input type="text" id="input-name" placeholder="例: haru">
+            </div>
+            
+            <button onclick="loginToRoom()" style="width: 100%; margin-top: 15px; background-color: #4caf50; box-shadow: 0 4px 0 #388e3c;">ふたりの部屋に入る 💕</button>
         </div>
-        
-        <div class="login-input-group">
-            <label for="input-name">👤 あなたのお名前</label>
-            <input type="text" id="input-name" placeholder="例: haruka">
+
+        <div id="invite-area" style="display: none; text-align: center; margin-top: 10px; background: #f0fdf4; border: 2px dashed #4caf50; padding: 15px; border-radius: 20px;">
+            <p style="font-size: 0.95rem; font-weight: bold; color: #15803d; margin: 0 0 10px 0;">✨ お部屋の準備ができたよ！ ✨</p>
+            <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">下のボタンを押して招待文をコピーし、恋人にLINEやDMで送ってあげてね！</p>
+            
+            <button onclick="copyInviteMessage()" style="width: 100%; background-color: #ef4444; box-shadow: 0 4px 0 #b91c1c;">📋 招待メッセージをコピーする</button>
+            <button onclick="goToRoomActual()" style="width: 100%; margin-top: 12px; background-color: #3b82f6; box-shadow: 0 4px 0 #1d4ed8;">🚪 そのまま自分だけ部屋に入る</button>
         </div>
-        
-        <button onclick="loginToRoom()" style="width: 100%; margin-top: 15px; background-color: #4caf50; box-shadow: 0 4px 0 #388e3c;">ふたりの部屋に入る 💕</button>
     </div>
 
 
