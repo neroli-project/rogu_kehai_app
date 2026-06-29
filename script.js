@@ -41,7 +41,7 @@ if (!roomId || !myId) {
 }
 
 // ==========================================================================
-// 🔑 【新機能】ログイン＆招待リンク生成の処理
+// 🔑 【修正完了版】ログイン＆招待リンク生成の処理
 // ==========================================================================
 
 // 💡 世界にひとつだけの招待URLとジャンプ先を一時的に保存しておく変数
@@ -65,7 +65,7 @@ window.loginToRoom = function() {
     // 自分が後で入る用のURLもキープしておくよ（?room=部屋名&myname=自分の名前）
     nextJumpUrl = `${baseUrl}?room=${encodeURIComponent(roomInput)}&myname=${encodeURIComponent(nameInput)}`;
     
-    // ✨ 魔法の切り替え：入力欄を隠して、招待コピー画面をポッと出す！
+    // ✨ 【修正ポイント】styleの重複を直して、確実に入力欄を隠して招待エリアを出します！
     document.getElementById('login-form-fields').style.display = 'none';
     document.getElementById('invite-area').style.display = 'block';
 }
@@ -89,6 +89,86 @@ window.goToRoomActual = function() {
         window.location.href = nextJumpUrl;
     }
 }
+
+// ==========================================================================
+// 🚨 ここから下はFirebaseやボタン・タブの処理（古いものと綺麗に入れ替え！）
+// ==========================================================================
+
+const myRef = ref(database, `rooms/${roomId}/users/${myId}`);
+const roomRef = ref(database, `rooms/${roomId}/users`);
+
+let uploadLimit = 3;
+
+// 3. 状態ボタンを押した時の処理
+window.changeStatus = function(statusText) {
+    let effect = "";
+    if (statusText.includes('まったり')) effect = '☕️🍀🏠';
+    else if (statusText.includes('仕事頑張ってる')) effect = '🔥💪😤';
+    else if (statusText.includes('パソコン')) effect = '💻👀⚡️';
+    else if (statusText.includes('おやつ')) effect = '🍰🍩🧋';
+    else if (statusText.includes('寝るね')) effect = '🌙💤⭐️';
+    else if (statusText.includes('愛してる')) effect = '❤️❤️❤️';
+    else if (statusText.includes('大好き')) effect = '💖✨💘';
+
+    if (typeof triggerEffect === 'function') triggerEffect(effect);
+    if (typeof saveDataToServer === 'function') saveDataToServer(statusText, effect);
+}
+
+// 🔍 写真をタップした時に大きく拡大する魔法
+window.zoomPhoto = function(element) {
+    const modal = document.getElementById('photo-zoom-modal');
+    const zoomedImg = document.getElementById('zoomed-photo');
+    if (modal && zoomedImg) {
+        zoomedImg.src = element.src;
+        modal.style.display = 'flex';
+    }
+}
+
+window.closeZoomModal = function() {
+    const modal = document.getElementById('photo-zoom-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// 📸 インスタ風画面切り替え（タブ機能）の魔法
+window.switchTab = function(tabName) {
+    const myArea = document.getElementById('my-area');
+    const partnerArea = document.getElementById('partner-area');
+    const tabMyBtn = document.getElementById('tab-my');
+    const tabPartnerBtn = document.getElementById('tab-partner');
+
+    if (tabName === 'my') {
+        if (myArea) myArea.style.display = 'block';
+        if (partnerArea) partnerArea.style.display = 'none';
+        if (tabMyBtn) {
+            tabMyBtn.style.color = '#4caf50';
+            tabMyBtn.style.borderBottom = '3px solid #4caf50';
+        }
+        if (tabPartnerBtn) {
+            tabPartnerBtn.style.color = '#888';
+            tabPartnerBtn.style.borderBottom = '3px solid transparent';
+        }
+    } else {
+        if (myArea) myArea.style.display = 'none';
+        if (partnerArea) partnerArea.style.display = 'block';
+        if (tabPartnerBtn) {
+            tabPartnerBtn.style.color = '#4caf50';
+            tabPartnerBtn.style.borderBottom = '3px solid #4caf50';
+        }
+        if (tabMyBtn) {
+            tabMyBtn.style.color = '#888';
+            tabMyBtn.style.borderBottom = '3px solid transparent';
+        }
+    }
+}
+
+// アプリを開いた瞬間に、自動で「あいて」のタブを最初に選んでおく魔法
+window.addEventListener('DOMContentLoaded', () => {
+    if (typeof window.switchTab === 'function') {
+        window.switchTab('partner');
+    }
+});}
 
 ==========================================================================
 // 🛠️ 共通で使う大事な関数
