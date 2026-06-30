@@ -361,7 +361,7 @@ window.uploadOwnPhoto = function(input) {
 }
 
 // ==========================================================================
-// 💡 【完全版】アバターの6枚枠をカスタムする魔法（外から見えるように強化！）
+// 💡 【ログイン版用】アバターの6枚枠をカスタムする魔法
 // ==========================================================================
 window.isEditMode = false;
 window.currentEditingIndex = -1;
@@ -389,24 +389,23 @@ window.toggleCustomMode = function() {
     }
 }
 
-// 2. 6つのアバター枠がクリックされたときの魔法（パッと閉じる魔法を追加！）
+// 2. 6つのアバター枠がクリックされたときの魔法
 window.handleAvatarClick = function(index, presetId) {
     if (window.isEditMode) {
-        // 【カスタムモード】なら、スマホのファイル選択（カメラロール）を開く
+        // カスタムモードならファイル選択を開く
         window.currentEditingIndex = index;
         const fileInput = document.getElementById('avatar-file-input');
         if (fileInput) fileInput.click(); 
     } else {
-        // 【通常モード】なら、アバターを確定してFirebaseへ送信
+        // 通常モードなら、アバターを確定してポップアップを閉じる
         const img = document.getElementById(`preset-img-${index}`);
         const customSrc = img ? img.src : null;
         window.selectPresetAvatar(presetId, customSrc);
-
-        // ✨【ここを追加！】アバターを決定したら、ポップアップを自動でパッと閉じる！
         window.closeAvatarModal();
     }
 }
-// 3. 【重要】自分の写真をアップロードしたときの処理（カスタム枠の上書きにも対応！）
+
+// 3. 自分の写真をアップロードしたときの処理
 window.uploadOwnPhoto = function(input) {
     if (typeof checkUploadLimit === "function" && !checkUploadLimit()) {
         alert("本日の変更回数の上限です");
@@ -434,7 +433,11 @@ window.uploadOwnPhoto = function(input) {
                 if (myPreview) myPreview.src = newPhotoData;
                 
                 const currentMsg = "新しい写真を設定したよ！📸";
-                window.saveDataToServer(currentMsg, "");
+                if (typeof saveDataToServer === "function") {
+                    saveDataToServer(currentMsg, "");
+                } else if (typeof window.saveDataToServer === "function") {
+                    window.saveDataToServer(currentMsg, "");
+                }
                 
                 if (typeof reduceUploadCount === "function") reduceUploadCount();
                 window.closeAvatarModal();
