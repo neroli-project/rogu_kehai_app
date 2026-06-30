@@ -166,9 +166,20 @@ window.saveDataToServer = function(messageText, effectEmoji) {
     });
 }
 
-// ポップアップ開閉
-window.openAvatarModal = function() { document.getElementById('avatar-modal').style.display = 'flex'; }
-window.closeAvatarModal = function() { document.getElementById('avatar-modal').style.display = 'none'; }
+// ポップアップ開閉（開く瞬間にカスタム写真を強制リロードする魔法を追加！）
+window.openAvatarModal = function() { 
+    // 💡 ポップアップを開く前に、過去にカスタムした写真をLocalStorageから確実に読み込む！
+    if (typeof window.loadCustomAvatars === "function") {
+        window.loadCustomAvatars();
+    }
+    
+    // ポップアップを表示する
+    document.getElementById('avatar-modal').style.display = 'flex'; 
+}
+
+window.closeAvatarModal = function() { 
+    document.getElementById('avatar-modal').style.display = 'none'; 
+}
 // ==========================================================================
 // 📡 部屋にいる「自分以外の人（相手）」を自動で見つけて画面に映す
 // ==========================================================================
