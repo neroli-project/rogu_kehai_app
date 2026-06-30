@@ -288,3 +288,29 @@ button:active {
             box-shadow: none;
         }
 
+/* 💡 カスタムモード用のCSS */
+        .avatar-preset-container {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .avatar-custom-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .edit-mode .avatar-custom-overlay {
+            opacity: 1; /* カスタムモード時のみ表示 */
+        }

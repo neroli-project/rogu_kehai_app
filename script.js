@@ -247,20 +247,27 @@ function reduceUploadCount() {
     if (countEl) countEl.innerText = uploadLimit;
 }
 
-window.selectPresetAvatar = function(avatarName) {
-    if (!checkUploadLimit()) {
-        alert("本日の変更回数の上限です");
-        return;
+// ✨ アバターを選んだときの処理（エラー修正版！）
+window.selectPresetAvatar = function(presetId, customSrc) {
+    // もしカスタムされた画像URL（Base64など）があればそれを使い、なければ元の画像パスを使う
+    const finalAvatarSrc = customSrc || `image/${presetId}.png`;
+    
+    // 自分のプレビュー画像を書き換える
+    const myPreview = document.getElementById('my-avatar-preview');
+    if (myPreview) {
+        myPreview.src = finalAvatarSrc;
     }
-    document.getElementById('my-avatar-preview').src = `image/${avatarName}.png`;
     
+    // サーバー（Firebase）に保存する
     const currentMsg = "アバターを変えたよ";
-    window.saveDataToServer(currentMsg, "");
     
-    reduceUploadCount();
-    window.closeAvatarModal();
-}
-
+    // 💡 ここがポイント！元の「saveDataToServer」の形に合わせて、window. を外して呼び出すよ
+    if (typeof saveDataToServer === "function") {
+        saveDataToServer(currentMsg, "");
+    } else if (typeof window.saveDataToServer === "function") {
+        window.saveDataToServer(currentMsg, "");
+    }
+}}
 // ==========================================================================
 // 🔍 写真をタップした時に大きく拡大する魔法
 // ==========================================================================
@@ -352,3 +359,109 @@ window.uploadOwnPhoto = function(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+// ==========================================================================
+// 💡 【完全版】アバターの6枚枠をカスタムする魔法（外から見えるように強化！）
+// ==========================================================================
+window.isEditMode = false;
+window.currentEditingIndex = -1;
+
+// 1. カスタムモードのON/OFFを切り替える魔法
+window.toggleCustomMode = function() {
+    window.isEditMode = !window.isEditMode;
+    const grid = document.getElementById('preset-avatar-grid');
+    const button = document.getElementById('toggle-custom-mode');
+    
+    if (window.isEditMode) {
+        if(grid) grid.classList.add('edit-mode');
+        if(button) {
+            button.innerText = "アバターを選ぶモードに戻る";
+            button.style.backgroundColor = "#ff9800"; // オレンジ色
+            button.style.boxShadow = "0 3px 0 #e68a00";
+        }
+    } else {
+        if(grid) grid.classList.remove('edit-mode');
+        if(button) {
+            button.innerText = "⚙️ 6つの枠の写真をカスタムする";
+            button.style.backgroundColor = "#888"; // グレー
+            button.style.boxShadow = "0 3px 0 #666";
+        }
+    }
+}
+
+// 2. 6つのアバター枠がクリックされたときの魔法（パッと閉じる魔法を追加！）
+window.handleAvatarClick = function(index, presetId) {
+    if (window.isEditMode) {
+        // 【カスタムモード】なら、スマホのファイル選択（カメラロール）を開く
+        window.currentEditingIndex = index;
+        const fileInput = document.getElementById('avatar-file-input');
+        if (fileInput) fileInput.click(); 
+    } else {
+        // 【通常モード】なら、アバターを確定してFirebaseへ送信
+        const img = document.getElementById(`preset-img-${index}`);
+        const customSrc = img ? img.src : null;
+        window.selectPresetAvatar(presetId, customSrc);
+
+        // ✨【ここを追加！】アバターを決定したら、ポップアップを自動でパッと閉じる！
+        window.closeAvatarModal();
+    }
+}
+// 3. 【重要】自分の写真をアップロードしたときの処理（カスタム枠の上書きにも対応！）
+window.uploadOwnPhoto = function(input) {
+    if (typeof checkUploadLimit === "function" && !checkUploadLimit()) {
+        alert("本日の変更回数の上限です");
+        return;
+    }
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const newPhotoData = e.target.result;
+
+            if (window.isEditMode && window.currentEditingIndex !== -1) {
+                // 枠のカスタム処理
+                const presetImg = document.getElementById(`preset-img-${window.currentEditingIndex}`);
+                if (presetImg) presetImg.src = newPhotoData;
+                
+                // ブラウザに保存
+                localStorage.setItem(`customAvatar_${window.currentEditingIndex}`, newPhotoData);
+                alert(`${window.currentEditingIndex}番目の枠をカスタムしました！`);
+                
+                window.toggleCustomMode(); // 通常モードに戻す
+                window.currentEditingIndex = -1;
+            } else {
+                // 自分の写真を直接アイコンにする通常処理
+                const myPreview = document.getElementById('my-avatar-preview');
+                if (myPreview) myPreview.src = newPhotoData;
+                
+                const currentMsg = "新しい写真を設定したよ！📸";
+                window.saveDataToServer(currentMsg, "");
+                
+                if (typeof reduceUploadCount === "function") reduceUploadCount();
+                window.closeAvatarModal();
+            }
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// 4. アプリ起動時に過去にカスタムした画像を自動で読み込む魔法
+window.loadCustomAvatars = function() {
+    for (let i = 1; i <= 6; i++) {
+        const savedData = localStorage.getItem(`customAvatar_${i}`);
+        if (savedData) {
+            const presetImg = document.getElementById(`preset-img-${i}`);
+            if (presetImg) {
+                presetImg.src = savedData;
+            }
+        }
+    }
+}
+
+// 画面が完全に読み込まれたら自動で過去のカスタムを反映する
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+        if (typeof window.loadCustomAvatars === "function") {
+            window.loadCustomAvatars();
+        }
+    }, 500);
+});
