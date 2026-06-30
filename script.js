@@ -389,19 +389,31 @@ window.toggleCustomMode = function() {
     }
 }
 
-// 2. 6つのアバター枠がクリックされたときの魔法
+// 2. 6つのアバター枠がクリックされたときの魔法（回数制限の連動版！）
 window.handleAvatarClick = function(index, presetId) {
     if (window.isEditMode) {
-        // カスタムモードならファイル選択を開く
+        // 【カスタムモード】ならファイル選択を開く（ここは回数制限なし！）
         window.currentEditingIndex = index;
         const fileInput = document.getElementById('avatar-file-input');
         if (fileInput) fileInput.click(); 
     } else {
-        // 通常モードなら、アバターを確定してポップアップを閉じる
+        // 【通常モード】（アバターを決定するとき）
+        
+        // 💡 1. 変更回数の上限に達していないかチェックする
+        if (typeof checkUploadLimit === "function" && !checkUploadLimit()) {
+            alert("本日の変更回数の上限（3回）に達したため、変更できません。");
+            return; // 上限ならここで処理をストップ！
+        }
+        
+        // 2. アバターを確定してFirebaseへ送信
         const img = document.getElementById(`preset-img-${index}`);
         const customSrc = img ? img.src : null;
         window.selectPresetAvatar(presetId, customSrc);
-        window.closeAvatarModal();
+        
+        // 💡 3. 無事に変更できたら、本日の残り回数を1回分減らす！
+        if (typeof reduceUploadCount === "function") {
+            reduceUploadCount();
+        }
     }
 }
 
