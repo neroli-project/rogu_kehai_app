@@ -267,7 +267,7 @@ window.selectPresetAvatar = function(presetId, customSrc) {
     } else if (typeof window.saveDataToServer === "function") {
         window.saveDataToServer(currentMsg, "");
     }
-}}
+}
 // ==========================================================================
 // 🔍 写真をタップした時に大きく拡大する魔法
 // ==========================================================================
