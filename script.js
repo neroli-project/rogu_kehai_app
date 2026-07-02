@@ -241,14 +241,13 @@ if (roomRef) {
 // ==========================================================================
 window.changeStatus = function(statusText) {
     let effect = "";
-      if (statusText.includes('まったり')) effect = '☕️🍀🏠';
-    else if (statusText.includes('仕事頑張ってる')) effect = '🔥💪😤';
+     if (statusText.includes('まったり')) effect = '☕️🍀🏠';
+    else if (statusText.includes('勉強')) effect = '🔥💪😤';      
     else if (statusText.includes('パソコン')) effect = '💻👀⚡️';
     else if (statusText.includes('おやつ')) effect = '🍰🍩🧋';
     else if (statusText.includes('寝るね')) effect = '🌙💤⭐️';
-    else if (statusText.includes('愛してる')) effect = '❤️❤️❤️';
-    else if (statusText.includes('大好き')) effect = '💖✨💘';
-
+    else if (statusText.includes('愛してる')) effect = '❤️❤️❤️';    
+    else if (statusText.includes('大好き')) effect = '💖✨💘';  
 
     // 👇 頭に window. を付け足して、確実に魔法を呼び出すよ！
     window.triggerEffect(effect);
