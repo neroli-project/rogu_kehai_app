@@ -52,7 +52,7 @@
                 <input type="text" id="input-name" placeholder="例: sakura">
             </div>
             
-            <button onclick="loginToRoom()" style="width: 100%; margin-top: 15px; background-color: #4caf50; box-shadow: 0 4px 0 #388e3c;">ふたりの部屋に入る 💕</button>
+            <button onclick="loginToRoom()" style="width: 100%; margin-top: 15px; background-color: #4caf50; box-shadow: 0 4px 0 #388e3c;">ふたりの部屋に入る</button>
         </div>
 
         <div id="invite-area" style="display: none; text-align: center; margin-top: 10px; background: #f0fdf4; border: 2px dashed #4caf50; padding: 15px; border-radius: 20px;">
@@ -92,16 +92,23 @@
                 <p style="font-size: 0.9rem; color: #4caf50; font-weight: bold; margin-top: 8px;">いまのあなた：<span id="my-current-status">未設定</span></p>
             </div>
             
-            <h2>いまの気配を伝える（エフェクト付き！）</h2>
-            <div class="status-buttons" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
-                <button onclick="changeStatus('🏠 今家でまったり中')">🏠 まったり</button>
-                <button onclick="changeStatus('🔥 仕事頑張ってる！')">🔥 仕事がんばる</button>
-                <button onclick="changeStatus('💻 パソコンにかじりつき')">💻 パソコン</button>
-                <button onclick="changeStatus('🍰 おやつタイム☕️')">🍰 おやつ</button>
-                <button onclick="changeStatus('🌙 これから寝るね、おやすみ')">🌙 寝るね</button>
-                <button onclick="changeStatus('❤️ 愛してる')">❤️ 愛してる</button>
-                <button onclick="changeStatus('✨ 大好き')">✨ 大好き</button>
-            </div>
+           <h2>いまの気配を伝える（エフェクト付き！）</h2>
+
+<div style="text-align: center; margin-bottom: 15px;">
+    <button id="toggle-text-custom-mode" onclick="window.toggleTextCustomMode()" style="background-color: #888; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #666; transition: 0.2s;">
+        ⚙️ 7つの文字をカスタムする
+    </button>
+</div>
+
+<div class="status-buttons" style="display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap;">
+    <button id="status-btn-0" onclick="window.handleTextClick(0, '🏠 今家でまったり中')">🏠 まったり</button>
+    <button id="status-btn-1" onclick="window.handleTextClick(1, '🔥 勉強頑張ってる！')">🔥 勉強がんばる</button>
+    <button id="status-btn-2" onclick="window.handleTextClick(2, '💻 パソコンにかじりつき')">💻 パソコン</button>
+    <button id="status-btn-3" onclick="window.handleTextClick(3, '🍰 おやつタイム☕️')">🍰 おやつ</button>
+    <button id="status-btn-4" onclick="window.handleTextClick(4, '🌙 これから寝るね、おやすみ')">🌙 寝るね</button>
+    <button id="status-btn-5" onclick="window.handleTextClick(5, '❤️ 愛してる')">❤️ 愛してる</button>
+    <button id="status-btn-6" onclick="window.handleTextClick(6, '✨ 大好き')">✨ 大好き</button>
+</div>
 
             <div class="message-input" style="display: flex; gap: 8px; margin-bottom: 15px;">
                 <input type="text" id="my-message-text" placeholder="自由に入力して送信もできるよ" style="flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 24px; outline: none;">
