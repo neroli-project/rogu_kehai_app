@@ -205,19 +205,16 @@ if (roomRef) {
 // ==========================================================================
 window.changeStatus = function(statusText) {
     let effect = "";
-     if (statusText.includes('まったり')) effect = '☕️🍀🏠';
-    else if (statusText.includes('勉強')) effect = '🔥💪😤';      
+    if (statusText.includes('まったり')) effect = '☕️🍀🏠';
+    else if (statusText.includes('勉強')) effect = '🔥💪😤';     
     else if (statusText.includes('パソコン')) effect = '💻👀⚡️';
     else if (statusText.includes('おやつ')) effect = '🍰🍩🧋';
     else if (statusText.includes('寝るね')) effect = '🌙💤⭐️';
     else if (statusText.includes('愛してる')) effect = '❤️❤️❤️';    
     else if (statusText.includes('大好き')) effect = '💖✨💘';  
 
-
     window.triggerEffect(effect);
     window.saveDataToServer(statusText, effect);
-};
-
 // ==========================================================================
 // 4. 自由入力のメッセージ送信
 // ==========================================================================
