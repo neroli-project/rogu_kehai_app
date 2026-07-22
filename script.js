@@ -215,6 +215,8 @@ window.changeStatus = function(statusText) {
 
     window.triggerEffect(effect);
     window.saveDataToServer(statusText, effect);
+};
+
 // ==========================================================================
 // 4. 自由入力のメッセージ送信
 // ==========================================================================
